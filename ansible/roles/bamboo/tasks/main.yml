@@ -1,0 +1,65 @@
+##################################################
+### Install and configure Java
+- name: Install Java
+  apt: name={{ item }} state=present
+  environment: 
+    JAVA_HOME: /usr/bin/java
+  with_items:
+    - default-jdk
+
+##################################################
+### Install and configure Bamboo
+- name: Add bamboo system user
+  user: name=bamboo shell=/bin/bash password="" update_password=on_create system=False home={{ bamboo_home_path }}
+
+- name: Create Folder Structure
+  file: path={{ item.path }} mode={{ item.mode }} state=directory owner=bamboo group=bamboo
+  with_items:
+   - { path: "{{ bamboo_home_path }}", mode: 755 }
+   - { path: "{{ bamboo_home_path }}/.ssh", mode: 700 }
+   - { path: "{{ bamboo_app_path }}", mode: 755 }
+   - { path: "{{ bamboo_data_path }}", mode: 755 }
+
+- name: Check if Bamboo is downloaded already
+  stat: path="{{ bamboo_app_path }}/atlassian-bamboo-{{ bamboo_version }}"
+  check_mode: no
+  changed_when: false
+  register: bamboo_installed
+
+- name: Download Bamboo
+  unarchive: src={{ bamboo_url }} dest={{ bamboo_app_path }} remote_src=True
+  when: bamboo_installed.stat.isdir is not defined
+
+- name: Ensure directory and file permissions
+  file: path={{ bamboo_home_path }} owner=bamboo group=bamboo recurse=yes
+
+- name: Link specific Bamboo version to current
+  file:
+    src: "{{ bamboo_app_path }}/atlassian-bamboo-{{ bamboo_version }}"
+    dest: "{{ bamboo_app_path }}/current"
+    owner: bamboo
+    group: bamboo
+    state: link
+    force: yes
+
+- name: Copy Bamboo Configuration
+  template: src={{ item.src }} dest={{ item.dest }} mode={{ item.mode }} owner={{ item.user }} group={{ item.group }}
+  with_items:
+    - { src: "bamboo.service", dest: "/lib/systemd/system/bamboo.service", mode: 644, user: root, group: root }
+  notify:
+   - restart bamboo
+
+##################################################
+### Setup Nginx proxy
+- name: Copy new virtual hosts file.
+  template:
+    src=bamboo_proxy.conf
+    dest=/etc/nginx/sites-available/bamboo_proxy.conf
+
+- name: Enable new virtual hosts file.
+  file:
+    src=/etc/nginx/sites-available/bamboo_proxy.conf
+    dest=/etc/nginx/sites-enabled/bamboo_proxy.conf
+    state=link
+  notify:
+   - restart nginx

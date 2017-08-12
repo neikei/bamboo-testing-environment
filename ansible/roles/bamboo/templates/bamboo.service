@@ -1,0 +1,13 @@
+[Unit]
+Description=Atlassian Bamboo
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=bamboo
+Environment="BAMBOO_HOME={{ bamboo_data_path }}"
+ExecStart={{ bamboo_app_path }}/current/bin/start-bamboo.sh
+ExecStop={{ bamboo_app_path }}/current/bin/stop-bamboo.sh
+
+[Install]
+WantedBy=multi-user.target

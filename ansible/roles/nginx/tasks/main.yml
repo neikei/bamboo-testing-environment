@@ -1,0 +1,56 @@
+##################################################
+### Special stuff to identify Vagrantboxes
+- name: Check if Server is Vagrantbox
+  shell: 'grep vagrant /etc/passwd | wc -l'
+  check_mode: no
+  changed_when: false
+  register: vagrantbox
+
+##################################################
+### Install and configure webserver
+- name: Add apt key for Debian
+  apt_key: url={{ nginx_repo_key }} state=present
+  when: ansible_distribution_major_version == "8"
+
+- name: Add repository for Debian
+  apt_repository: repo="{{ item }} {{ nginx_repo }} {{ ansible_distribution_release }} all" state=present update_cache=yes
+  with_items:
+    - deb
+    - deb-src
+  when: ansible_distribution_major_version == "8"
+
+- name: Set up webserver
+  apt: name=nginx state=latest
+
+- name: Create folders
+  file: path={{ item.path }} mode={{ item.mode }} state=directory owner={{ item.user }} group={{ item.group }}
+  with_items:
+    - { path: "/etc/nginx/sites-available", mode: 755, user: root, group: root }
+    - { path: "/etc/nginx/sites-enabled", mode: 755, user: root, group: root }
+
+- name: Configure vagrant as nginx user
+  lineinfile:
+    dest=/etc/nginx/nginx.conf
+    regexp='^user www-data'
+    line='user vagrant;'
+    backrefs=yes
+  when: vagrantbox.stdout != "0"
+
+- name: Disable default virtual hosts file.
+  file:
+    path=/etc/nginx/sites-enabled/default
+    state=absent
+  notify:
+   - restart nginx
+
+- name: Allow Ports
+  ufw: rule=allow port={{ item }}
+  with_items:
+    - 80
+    - 443
+
+- name: Start Nginx and enable the service in autostart
+  service:
+    name: nginx
+    state: started
+    enabled: yes
