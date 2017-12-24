@@ -5,7 +5,7 @@
 VAGRANTFILE_API_VERSION = "2"
 
 # Check minimum Vagrant version
-Vagrant.require_version ">= 1.9.7"
+Vagrant.require_version ">= 2.0.1"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -44,7 +44,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   ## Install and configure software
    config.vm.provision "ansible_local" do |ansible|
        ansible.playbook = "ansible/playbook.yml"
-       ansible.sudo = true
+       ansible.become = true
        ansible.verbose = ""
    end
 

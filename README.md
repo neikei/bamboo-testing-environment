@@ -6,8 +6,8 @@ Bamboo testing environment in a Vagrantbox based on Debian and provisioned with 
 
 ## Requirements
 
-- Virtualbox >= 5.1.14
-- Vagrant >= 1.9.7
+- Virtualbox >= 5.2.4
+- Vagrant >= 2.0.1
 - Vagrant Plugin: [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)
 
 ## Getting started
