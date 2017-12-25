@@ -24,9 +24,3 @@ Bamboo testing environment in a Vagrantbox based on Debian and provisioned with 
 ## Feedback, Issues and Pull-Requests
 
 Feel free to report issues, fork this project and submit pull requests.
-
-## Changelog
-
-12 Aug 2017
-
-- Initial Commit
