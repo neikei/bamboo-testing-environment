@@ -8,7 +8,9 @@ Bamboo testing environment in a Vagrantbox based on Debian and provisioned with 
 
 - Virtualbox >= 5.2.4
 - Vagrant >= 2.0.1
-- Vagrant Plugin: [vagrant-vbguest](https://github.com/dotless-de/vagrant-vbguest)
+- Vagrant Plugins:
+  - vagrant plugin install vagrant-hostmanager
+  - vagrant plugin install vagrant-vbguest
 
 ## Getting started
 
@@ -16,10 +18,10 @@ Bamboo testing environment in a Vagrantbox based on Debian and provisioned with 
 2. cd bamboo-testing-environment
 3. vagrant up
 4. ... wait ...
-5. Open Bamboo in your web browser: http://192.168.56.151
+5. Open Bamboo in your web browser: http://bamboo.test
 6. Enter your official Bamboo evaluation license
 7. Start the "Express installation"
-8. Test Bamboo by your own
+8. Test Bamboo
 
 ## Feedback, Issues and Pull-Requests
 

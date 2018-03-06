@@ -34,6 +34,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # Configure the VM
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.hostmanager.ignore_private_ip = false
+  config.hostmanager.include_offline = true
+  config.hostmanager.aliases = 'bamboo.test'
   config.vm.hostname = 'bamboo-testing-environment'
   config.vm.network :private_network, ip: "192.168.56.151"
 
