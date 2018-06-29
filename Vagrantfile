@@ -18,19 +18,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "virtualbox"
 
   if Vagrant.has_plugin?('vagrant-vbguest')
-      config.vbguest.auto_update = true
+    config.vbguest.auto_update = true
   end
 
   config.vm.provider "virtualbox" do |vb|
-      vb.gui = false
-      vb.customize ['modifyvm', :id, '--memory', 2048]
-      vb.customize ["modifyvm", :id, "--cpus", 2]
-      vb.customize ["modifyvm", :id, "--name", "bamboo-testing-environment"]
+    vb.gui = false
+    vb.customize ['modifyvm', :id, '--memory', 2048]
+    vb.customize ["modifyvm", :id, "--cpus", 2]
+    vb.customize ["modifyvm", :id, "--name", "bamboo-testing-environment"]
   end
 
   config.vm.provider "parallels" do |v|
-      v.memory = 2048
-      v.cpus = 2
+    v.memory = 2048
+    v.cpus = 2
   end
 
   # Configure the VM
@@ -47,10 +47,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", path: "ansible/tools/install_ansible_in_Vagrantbox.sh"
 
   ## Install and configure software
-   config.vm.provision "ansible_local" do |ansible|
-       ansible.playbook = "ansible/playbook.yml"
-       ansible.become = true
-       ansible.verbose = ""
-   end
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "ansible/playbook.yml"
+    ansible.become = true
+    ansible.verbose = ""
+  end
 
+  # Post-up message
+  config.vm.post_up_message = "See https://github.com/neikei/bamboo-testing-environment for help and bug reports."
 end
