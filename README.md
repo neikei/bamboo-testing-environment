@@ -2,7 +2,7 @@
 
 Bamboo testing environment in a Vagrantbox based on Debian and provisioned with Ansible.
 
-:warning: Bamboo is a CI software developed by [Atlassian](https://www.atlassian.com/). This is just a free-to-use testing environment to get a first impression and you need an [official Bamboo evaluation license](http://www.atlassian.com/ex/generatelicense.jspa?product=bamboo)!
+:warning: Bamboo is a CI software developed by [Atlassian](https://www.atlassian.com/). This is just a free-to-use testing environment to get a first impression and you need an [official Bamboo evaluation license](http://www.atlassian.com/ex/generatelicense.jspa?product=bamboo) or the [Timebomb license for testing server apps](https://developer.atlassian.com/platform/marketplace/timebomb-licenses-for-testing-server-apps/)!
 
 ## Requirements
 
