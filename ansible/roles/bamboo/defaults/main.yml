@@ -1,5 +1,5 @@
 bamboo_home_path: /home/bamboo
 bamboo_app_path: /home/bamboo/app
 bamboo_data_path: /home/bamboo/data
-bamboo_version: 6.7.2
+bamboo_version: 6.8.0
 bamboo_url: https://www.atlassian.com/software/bamboo/downloads/binary/atlassian-bamboo-{{ bamboo_version }}.tar.gz
