@@ -17,8 +17,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider "parallels"
   config.vm.provider "virtualbox"
 
+  # TODO: Review after this issue is fixed https://github.com/dotless-de/vagrant-vbguest/issues/351
   if Vagrant.has_plugin?('vagrant-vbguest')
-    config.vbguest.auto_update = true
+    config.vbguest.auto_update = false
   end
 
   config.vm.provider "virtualbox" do |vb|
