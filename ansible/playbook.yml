@@ -1,6 +1,6 @@
  - hosts: all
    roles:
-    - { role: basics }
-    - { role: updates }
-    - { role: nginx }
-    - { role: bamboo }
+    - role: basics
+    - role: updates
+    - role: nginx
+    - role: bamboo
